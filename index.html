@@ -1,0 +1,2976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bug Fix Battle | Coding Challenge</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #080b14;
+    color: #f4f7ff;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: min(1180px, 92%);
+    margin: auto;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(8, 11, 20, 0.92);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid #202638;
+}
+
+.nav-container {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.logo-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 38px;
+    height: 38px;
+    margin-right: 8px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7c5cff, #00d4ff);
+}
+
+.logo span:last-child {
+    color: #8d78ff;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+}
+
+nav a {
+    color: #aeb5c8;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: white;
+}
+
+.menu-btn {
+    display: none;
+    border: 0;
+    background: none;
+    color: white;
+    font-size: 25px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 100vh;
+    padding-top: 75px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    right: -150px;
+    top: 100px;
+    background: #6246ea;
+    opacity: 0.16;
+    filter: blur(100px);
+    border-radius: 50%;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: rgba(124,92,255,0.1);
+    border: 1px solid rgba(124,92,255,0.3);
+    color: #a99aff;
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 5vw, 68px);
+    line-height: 1.05;
+    letter-spacing: -3px;
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    display: block;
+    background: linear-gradient(90deg, #7c5cff, #00d4ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-description {
+    color: #9da5bb;
+    font-size: 17px;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 21px;
+    border-radius: 9px;
+    border: none;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    color: white;
+    background: linear-gradient(135deg, #7c5cff, #6246ea);
+    box-shadow: 0 10px 30px rgba(124,92,255,0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+}
+
+.btn-secondary {
+    background: #101522;
+    border: 1px solid #2a3042;
+    color: #d5daE7;
+}
+
+.btn-secondary:hover {
+    border-color: #7c5cff;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 45px;
+    margin-top: 45px;
+}
+
+.hero-stats strong {
+    font-size: 25px;
+}
+
+.hero-stats span {
+    display: block;
+    color: #747d96;
+    font-size: 12px;
+}
+
+
+/* =========================
+   CODE WINDOW
+========================= */
+
+.code-window {
+    background: #0d111c;
+    border: 1px solid #282e40;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    animation: floating 5s ease-in-out infinite;
+}
+
+@keyframes floating {
+    0%,100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+.window-header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 18px;
+    border-bottom: 1px solid #202636;
+    color: #7e879e;
+    font-size: 12px;
+}
+
+.window-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.window-dots span {
+    width: 10px;
+    height: 10px;
+    background: #4a5267;
+    border-radius: 50%;
+}
+
+.code-content {
+    padding: 25px 20px;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    line-height: 2.1;
+}
+
+.line-number {
+    display: inline-block;
+    width: 32px;
+    color: #424b61;
+}
+
+.purple {
+    color: #c792ea;
+}
+
+.blue {
+    color: #82aaff;
+}
+
+.yellow {
+    color: #ffcb6b;
+}
+
+.green {
+    color: #7bd88f;
+}
+
+.bug-line {
+    padding: 3px 0;
+}
+
+.terminal {
+    padding: 15px 20px;
+    border-top: 1px solid #202636;
+    color: #7e879e;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section {
+    padding: 100px 0;
+}
+
+.section-heading {
+    max-width: 700px;
+    text-align: center;
+    margin: 0 auto 50px;
+}
+
+.section-heading > span {
+    color: #7c5cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    font-size: clamp(30px,4vw,45px);
+    margin: 10px 0 15px;
+}
+
+.section-heading h2 span {
+    color: #7c5cff;
+}
+
+.section-heading p {
+    color: #8d96ac;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about,
+.battle-section,
+.leaderboard {
+    background: #0b0f19;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.about-card {
+    background: #101522;
+    border: 1px solid #252c3e;
+    border-radius: 15px;
+    padding: 30px;
+    transition: 0.3s;
+}
+
+.about-card:hover {
+    transform: translateY(-7px);
+    border-color: #7058e8;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    background: rgba(124,92,255,0.12);
+    color: #927eff;
+    border-radius: 12px;
+    font-size: 22px;
+    margin-bottom: 18px;
+}
+
+.about-card h3 {
+    margin-bottom: 8px;
+}
+
+.about-card p {
+    color: #8992a7;
+    font-size: 14px;
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+.filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 35px;
+}
+
+.filter-btn {
+    padding: 9px 18px;
+    border: 1px solid #292f42;
+    border-radius: 8px;
+    background: #101522;
+    color: #9ca5ba;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #7c5cff;
+    border-color: #7c5cff;
+    color: white;
+}
+
+.difficulty-filter select {
+    background: #101522;
+    border: 1px solid #292f42;
+    color: #aeb5c8;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+
+/* =========================
+   CHALLENGES
+========================= */
+
+.challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.challenge-card {
+    background: #101522;
+    border: 1px solid #252c3e;
+    border-radius: 15px;
+    padding: 24px;
+    transition: 0.3s;
+}
+
+.challenge-card:hover {
+    transform: translateY(-6px);
+    border-color: #7058e8;
+}
+
+.challenge-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.language,
+.difficulty {
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.c {
+    background: rgba(71,129,255,.12);
+    color: #70a0ff;
+}
+
+.java {
+    background: rgba(255,111,60,.12);
+    color: #ff956e;
+}
+
+.python {
+    background: rgba(255,205,65,.12);
+    color: #ffd865;
+}
+
+.easy {
+    background: rgba(65,220,145,.1);
+    color: #65dc91;
+}
+
+.medium {
+    background: rgba(255,196,91,.1);
+    color: #ffc45b;
+}
+
+.challenge-icon {
+    font-size: 25px;
+    margin: 25px 0 15px;
+    color: #7c5cff;
+}
+
+.challenge-card h3 {
+    margin-bottom: 8px;
+}
+
+.challenge-card p {
+    color: #828ca4;
+    font-size: 13px;
+    min-height: 55px;
+}
+
+.challenge-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #252c3e;
+    padding-top: 17px;
+    margin-top: 18px;
+}
+
+.challenge-footer span {
+    color: #9ca5ba;
+    font-size: 12px;
+}
+
+.start-challenge {
+    border: none;
+    background: none;
+    color: #927eff;
+    font-weight: 700;
+}
+
+.start-challenge:hover {
+    color: white;
+}
+
+
+/* =========================
+   BATTLE EDITOR
+========================= */
+
+.battle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.battle-label {
+    color: #7c5cff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.battle-header h2 {
+    margin-top: 5px;
+}
+
+.battle-info {
+    display: flex;
+    gap: 20px;
+    color: #8992a7;
+    font-size: 13px;
+}
+
+.battle-info i {
+    color: #7c5cff;
+}
+
+.editor-layout {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 20px;
+}
+
+.problem-panel,
+.editor-panel {
+    background: #101522;
+    border: 1px solid #252c3e;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.panel-heading,
+.editor-header {
+    height: 55px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #252c3e;
+}
+
+.panel-heading {
+    font-size: 13px;
+}
+
+.panel-heading i {
+    color: #7c5cff;
+    margin-right: 7px;
+}
+
+.problem-content {
+    padding: 25px;
+}
+
+.problem-content > p {
+    color: #a8b0c2;
+    font-size: 14px;
+}
+
+.hint-box {
+    margin-top: 25px;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgba(255,195,80,.06);
+    border: 1px solid rgba(255,195,80,.12);
+}
+
+.hint-title {
+    color: #ffc45b;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.hint-box p {
+    color: #858ea3;
+    font-size: 12px;
+}
+
+.editor-file {
+    color: #b9c1d2;
+    font-size: 13px;
+}
+
+.editor-status {
+    color: #5dd58a;
+    font-size: 11px;
+}
+
+#codeEditor {
+    width: 100%;
+    min-height: 360px;
+    padding: 25px;
+    resize: vertical;
+    border: none;
+    outline: none;
+    background: #090d16;
+    color: #dbe4f7;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.editor-footer {
+    padding: 15px;
+    border-top: 1px solid #252c3e;
+    display: flex;
+    justify-content: space-between;
+}
+
+.reset-btn {
+    border: none;
+    background: none;
+    color: #8992a7;
+}
+
+.submit-btn {
+    border: none;
+    padding: 10px 17px;
+    border-radius: 8px;
+    background: #7c5cff;
+    color: white;
+    font-weight: 700;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result-section {
+    display: none;
+    padding: 80px 0;
+    background: #090d16;
+}
+
+.result-section.show {
+    display: block;
+}
+
+.result-card {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    padding: 50px 30px;
+    background: #101522;
+    border: 1px solid #292f42;
+    border-radius: 20px;
+}
+
+.result-icon {
+    width: 75px;
+    height: 75px;
+    margin: auto auto 20px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,196,91,.1);
+    color: #ffc45b;
+    font-size: 30px;
+}
+
+.result-card p {
+    color: #8e97ab;
+}
+
+.score-display {
+    margin: 25px 0;
+}
+
+.score-display span {
+    font-size: 65px;
+    font-weight: 800;
+    color: #7c5cff;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 20px;
+}
+
+.step {
+    text-align: center;
+    padding: 25px;
+}
+
+.step-number {
+    color: #292f42;
+    font-size: 35px;
+    font-weight: 900;
+}
+
+.step i {
+    color: #7c5cff;
+    font-size: 25px;
+    margin: 12px;
+}
+
+.step p {
+    color: #7e879b;
+    font-size: 13px;
+}
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard-table {
+    max-width: 850px;
+    margin: auto;
+    border: 1px solid #252c3e;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.table-header,
+.player-row {
+    display: grid;
+    grid-template-columns: .6fr 2fr 1fr 1fr;
+    align-items: center;
+    padding: 16px 20px;
+}
+
+.table-header {
+    background: #151b29;
+    color: #747e96;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.player-row {
+    border-top: 1px solid #252c3e;
+    color: #a9b1c2;
+}
+
+.player-row strong {
+    color: #7c5cff;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #e2e6f0;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #272d42;
+    color: #9c8dff;
+    font-weight: 800;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+.contact-info > span {
+    color: #7c5cff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.contact-info h2 {
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 12px 0 20px;
+}
+
+.contact-info h2 span {
+    color: #7c5cff;
+}
+
+.contact-info > p {
+    color: #8992a7;
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.contact-item i {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: #8d78ff;
+    background: rgba(124,92,255,.1);
+}
+
+.contact-item strong {
+    font-size: 13px;
+}
+
+.contact-item p {
+    color: #808a9e;
+    font-size: 12px;
+}
+
+.contact-form {
+    padding: 28px;
+    background: #101522;
+    border: 1px solid #252c3e;
+    border-radius: 16px;
+}
+
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    display: block;
+    color: #adb5c7;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: #0a0e17;
+    color: white;
+    border: 1px solid #292f42;
+    border-radius: 8px;
+    outline: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #7c5cff;
+}
+
+.input-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.form-message {
+    color: #5dd58a;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #060910;
+    border-top: 1px solid #202636;
+}
+
+.footer-content {
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer-brand p {
+    color: #687186;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+}
+
+.social-links a {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #272d3e;
+    border-radius: 8px;
+    color: #8992a6;
+}
+
+.social-links a:hover {
+    border-color: #7c5cff;
+    color: white;
+}
+
+.footer-bottom {
+    padding: 18px;
+    border-top: 1px solid #191e2c;
+    text-align: center;
+    color: #555e72;
+    font-size: 11px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px) {
+
+    nav {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        background: #0d111c;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    nav.show {
+        display: flex;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        padding: 70px 0;
+    }
+
+    .about-grid,
+    .challenge-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .editor-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .steps {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media(max-width:600px) {
+
+    .section {
+        padding: 75px 0;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero-stats {
+        gap: 25px;
+    }
+
+    .about-grid,
+    .challenge-grid,
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        justify-content: flex-start;
+    }
+
+    .difficulty-filter {
+        width: 100%;
+    }
+
+    .difficulty-filter select {
+        width: 100%;
+    }
+
+    .battle-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .table-header,
+    .player-row {
+        grid-template-columns: .5fr 1.7fr .8fr .8fr;
+        padding: 14px 10px;
+        font-size: 11px;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+
+    .contact-info h2 {
+        font-size: 34px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+        padding: 30px 0;
+    }
+}
+.player-name-box {
+    margin-bottom: 20px;
+    padding: 18px;
+    background: #101522;
+    border: 1px solid #252c3e;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-name-box label {
+    color: #aeb5c8;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.player-name-box input {
+    flex: 1;
+    max-width: 350px;
+    padding: 11px 14px;
+    background: #090d16;
+    border: 1px solid #292f42;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+}
+
+.player-name-box input:focus {
+    border-color: #7c5cff;
+}
+
+@media(max-width:600px) {
+
+    .player-name-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .player-name-box input {
+        max-width: none;
+    }
+
+}
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+<div class="container nav-container">
+
+<a href="#home" class="logo">
+<span class="logo-icon">&lt;/&gt;</span>
+Bug<span>Fix</span> Battle
+</a>
+
+<nav id="navMenu">
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#challenges">Challenges</a>
+<a href="#how">How It Works</a>
+<a href="#leaderboard">Leaderboard</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<button class="menu-btn" id="menuBtn">☰</button>
+
+</div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+<div class="container hero-content">
+
+<div>
+
+<div class="badge">
+🐞 Learn • Debug • Win
+</div>
+
+<h1>
+Find the Bug.
+<span class="gradient-text">
+Fix the Code.<br>
+Win the Battle.
+</span>
+</h1>
+
+<p class="hero-description">
+Test your programming skills by finding and fixing bugs
+in real coding challenges. Choose your language,
+select a difficulty, and start debugging.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#challenges" class="btn btn-primary">
+▶ Start Battle
+</a>
+
+<a href="#about" class="btn btn-secondary">
+Learn More ↓
+</a>
+
+</div>
+
+
+<div class="hero-stats">
+
+<div>
+<strong>50+</strong>
+<span>Challenges</span>
+</div>
+
+<div>
+<strong>3</strong>
+<span>Languages</span>
+</div>
+
+<div>
+<strong>2</strong>
+<span>Difficulty Levels</span>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CODE WINDOW -->
+
+<div class="code-window">
+
+<div class="window-header">
+
+<div class="window-dots">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+bug_challenge.py
+
+</div>
+
+
+<div class="code-content">
+
+<div>
+<span class="line-number">01</span>
+<span class="purple">def</span>
+<span class="blue">calculate_sum</span>(a,b):
+</div>
+
+<div>
+<span class="line-number">02</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<span class="purple">return</span>
+a - <span class="yellow">b</span>
+</div>
+
+<div>
+<span class="line-number">03</span>
+</div>
+
+<div class="bug-line">
+<span class="line-number">04</span>
+<span class="green"># Find the bug!</span>
+🐞
+</div>
+
+</div>
+
+<div class="terminal">
+<span style="color:#57e389">●</span>
+Bug detected...
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="section about" id="about">
+
+<div class="container">
+
+<div class="section-heading">
+
+<span>ABOUT THE PROJECT</span>
+
+<h2>
+Turn Debugging Into a
+<span>Battle</span>
+</h2>
+
+<p>
+Bug Fix Battle is an interactive coding practice platform
+designed to help students improve debugging and
+problem-solving skills.
+</p>
+
+</div>
+
+
+<div class="about-grid">
+
+<div class="about-card">
+
+<div class="feature-icon">🐞</div>
+
+<h3>Find Bugs</h3>
+
+<p>
+Analyze buggy programs and identify the errors
+hidden inside the code.
+</p>
+
+</div>
+
+
+<div class="about-card">
+
+<div class="feature-icon">🔧</div>
+
+<h3>Fix Code</h3>
+
+<p>
+Edit the code and apply your programming knowledge
+to solve the challenge.
+</p>
+
+</div>
+
+
+<div class="about-card">
+
+<div class="feature-icon">🏆</div>
+
+<h3>Earn Points</h3>
+
+<p>
+Submit your solution and receive a score based
+on the correctness of your answer.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CHALLENGES ================= -->
+
+<section class="section" id="challenges">
+
+<div class="container">
+
+<div class="section-heading">
+
+<span>CODING ARENA</span>
+
+<h2>
+Choose Your
+<span>Challenge</span>
+</h2>
+
+<p>
+Select a programming language and difficulty level.
+</p>
+
+</div>
+
+
+<div class="filters">
+
+<button class="filter-btn active" data-language="all">
+All
+</button>
+
+<button class="filter-btn" data-language="C">
+C
+</button>
+
+<button class="filter-btn" data-language="Java">
+Java
+</button>
+
+<button class="filter-btn" data-language="Python">
+Python
+</button>
+
+<div class="difficulty-filter">
+
+<select id="difficultyFilter">
+
+<option value="all">
+All Difficulties
+</option>
+
+<option value="Easy">
+Easy
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="challenge-grid">
+
+
+<!-- C EASY -->
+
+<div class="challenge-card"
+data-language="C"
+data-difficulty="Easy">
+
+<div class="challenge-top">
+
+<span class="language c">C</span>
+
+<span class="difficulty easy">
+Easy
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>Array Index Bug</h3>
+
+<p>
+Find the error in a simple array traversal program.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 100 pts</span>
+
+<button class="start-challenge"
+data-id="c-array">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- JAVA EASY -->
+
+<div class="challenge-card"
+data-language="Java"
+data-difficulty="Easy">
+
+<div class="challenge-top">
+
+<span class="language java">
+Java
+</span>
+
+<span class="difficulty easy">
+Easy
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>Loop Logic</h3>
+
+<p>
+Identify the logical error inside a Java loop.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 100 pts</span>
+
+<button class="start-challenge"
+data-id="java-loop">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PYTHON EASY -->
+
+<div class="challenge-card"
+data-language="Python"
+data-difficulty="Easy">
+
+<div class="challenge-top">
+
+<span class="language python">
+Python
+</span>
+
+<span class="difficulty easy">
+Easy
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>Function Bug</h3>
+
+<p>
+Find the mistake preventing the function
+from returning the correct result.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 100 pts</span>
+
+<button class="start-challenge"
+data-id="python-function">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- C MEDIUM -->
+
+<div class="challenge-card"
+data-language="C"
+data-difficulty="Medium">
+
+<div class="challenge-top">
+
+<span class="language c">C</span>
+
+<span class="difficulty medium">
+Medium
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>Pointer Problem</h3>
+
+<p>
+Debug a C program involving pointers and memory.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 200 pts</span>
+
+<button class="start-challenge"
+data-id="c-pointer">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- JAVA MEDIUM -->
+
+<div class="challenge-card"
+data-language="Java"
+data-difficulty="Medium">
+
+<div class="challenge-top">
+
+<span class="language java">
+Java
+</span>
+
+<span class="difficulty medium">
+Medium
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>Inheritance Error</h3>
+
+<p>
+Fix an object-oriented programming issue in Java.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 200 pts</span>
+
+<button class="start-challenge"
+data-id="java-inheritance">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PYTHON MEDIUM -->
+
+<div class="challenge-card"
+data-language="Python"
+data-difficulty="Medium">
+
+<div class="challenge-top">
+
+<span class="language python">
+Python
+</span>
+
+<span class="difficulty medium">
+Medium
+</span>
+
+</div>
+
+<div class="challenge-icon">🐞</div>
+
+<h3>List Processing</h3>
+
+<p>
+Debug a Python program that processes a list.
+</p>
+
+<div class="challenge-footer">
+
+<span>⭐ 200 pts</span>
+
+<button class="start-challenge"
+data-id="python-list">
+Start →
+</button>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= BATTLE ================= -->
+
+<section class="section battle-section" id="battle">
+
+<div class="container">
+    <div class="player-name-box">
+
+    <label>👤 Player Name</label>
+
+    <input
+        type="text"
+        id="playerName"
+        placeholder="Enter your name"
+    >
+
+</div>
+
+<div class="battle-header">
+
+<div>
+
+<span class="battle-label">
+ACTIVE BATTLE
+</span>
+
+<h2 id="challengeTitle">
+Select a challenge
+</h2>
+
+</div>
+
+<div class="battle-info">
+
+<span>
+💻 <b id="battleLanguage">---</b>
+</span>
+
+<span>
+⭐ <b id="battlePoints">---</b>
+</span>
+
+</div>
+
+</div>
+
+
+<div class="editor-layout">
+
+
+<!-- PROBLEM -->
+
+<div class="problem-panel">
+
+<div class="panel-heading">
+🐞 Problem
+</div>
+
+<div class="problem-content">
+
+<p id="problemText">
+Choose a challenge above to start debugging.
+</p>
+
+<div class="hint-box">
+
+<div class="hint-title">
+💡 Hint
+</div>
+
+<p id="hintText">
+Select a challenge to see a hint.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- EDITOR -->
+
+<div class="editor-panel">
+
+<div class="editor-header">
+
+<div class="editor-file">
+📄 <span id="fileName">
+solution.txt
+</span>
+</div>
+
+<div class="editor-status">
+● Editable
+</div>
+
+</div>
+
+
+<textarea id="codeEditor"
+spellcheck="false"
+placeholder="// Your code will appear here..."></textarea>
+
+
+<div class="editor-footer">
+
+<button class="reset-btn"
+id="resetCode">
+↻ Reset
+</button>
+
+<button class="submit-btn"
+id="submitCode">
+Submit Solution →
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= RESULT ================= -->
+
+<section class="result-section" id="resultSection">
+
+<div class="container">
+
+<div class="result-card">
+
+<div class="result-icon" id="resultIcon">
+🏆
+</div>
+
+<h2 id="resultTitle">
+Challenge Result
+</h2>
+
+<p id="resultMessage">
+Submit your solution to see your result.
+</p>
+
+<div class="score-display">
+
+<span id="scoreNumber">
+0
+</span>
+
+<small>/ 100</small>
+
+</div>
+
+<div class="result-actions">
+
+<button class="btn btn-primary"
+id="nextChallenge">
+Try Another
+</button>
+
+<button class="btn btn-secondary"
+id="closeResult">
+Close
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="section" id="how">
+
+<div class="container">
+
+<div class="section-heading">
+
+<span>HOW IT WORKS</span>
+
+<h2>
+Battle in
+<span>4 Simple Steps</span>
+</h2>
+
+</div>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<div class="step-number">
+01
+</div>
+
+<div style="font-size:30px;">
+🎯
+</div>
+
+<h3>Choose</h3>
+
+<p>
+Select your programming language
+and difficulty.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+02
+</div>
+
+<div style="font-size:30px;">
+🔍
+</div>
+
+<h3>Find</h3>
+
+<p>
+Read the code and identify
+the hidden bug.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+03
+</div>
+
+<div style="font-size:30px;">
+💻
+</div>
+
+<h3>Fix</h3>
+
+<p>
+Edit the code and correct
+the problem.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+04
+</div>
+
+<div style="font-size:30px;">
+🏆
+</div>
+
+<h3>Win</h3>
+
+<p>
+Submit your solution and
+earn points.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= LEADERBOARD ================= -->
+
+<section class="section leaderboard" id="leaderboard">
+
+<div class="container">
+
+<div class="section-heading">
+
+<span>TOP PLAYERS</span>
+
+<h2>
+Battle
+<span>Leaderboard</span>
+</h2>
+
+<p>
+See how our coding warriors are performing.
+</p>
+
+</div>
+
+
+<div class="leaderboard-table" id="leaderboardTable">
+
+<div class="table-header">
+
+<span>Rank</span>
+<span>Player</span>
+<span>Challenges</span>
+<span>Score</span>
+
+</div>
+
+
+<!-- Student's row will be added automatically -->
+
+<div class="player-row">
+
+<span>01</span>
+
+<span class="player">
+
+<span class="avatar">A</span>
+
+Aarav Sharma
+
+</span>
+
+<span>24</span>
+
+<strong>2450</strong>
+
+</div>
+
+
+<div class="player-row">
+
+<span>02</span>
+
+<span class="player">
+
+<span class="avatar">S</span>
+
+Sneha Patil
+
+</span>
+
+<span>21</span>
+
+<strong>2180</strong>
+
+</div>
+
+
+<div class="player-row">
+
+<span>03</span>
+
+<span class="player">
+
+<span class="avatar">R</span>
+
+Rohan Joshi
+
+</span>
+
+<span>19</span>
+
+<strong>1950</strong>
+
+</div>
+
+
+<div class="player-row">
+
+<span>04</span>
+
+<span class="player">
+
+<span class="avatar">P</span>
+
+Priya Kulkarni
+
+</span>
+
+<span>17</span>
+
+<strong>1720</strong>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+<!-- ================= CONTACT ================= -->
+
+<section class="section"
+id="contact">
+
+<div class="container">
+
+<div class="contact-grid">
+
+
+<div class="contact-info">
+
+<span>
+GET IN TOUCH
+</span>
+
+<h2>
+Have a question?
+<br>
+<span>Let's talk.</span>
+</h2>
+
+<p>
+Have feedback, suggestions, or found a bug?
+Send us a message.
+</p>
+
+
+<div class="contact-item">
+
+<i>✉</i>
+
+<div>
+
+<strong>Email</strong>
+
+<p>
+hello@bugfixbattle.com
+</p>
+
+</div>
+
+</div>
+
+
+<div class="contact-item">
+
+<i>📍</i>
+
+<div>
+
+<strong>Location</strong>
+
+<p>
+India
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<form class="contact-form"
+id="contactForm">
+
+<div class="input-group">
+
+<label>Name</label>
+
+<input
+type="text"
+id="contactName"
+placeholder="Enter your name"
+required>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Email</label>
+
+<input
+type="email"
+id="contactEmail"
+placeholder="Enter your email"
+required>
+
+</div>
+
+
+<div class="input-group">
+
+<label>Message</label>
+
+<textarea
+id="contactMessage"
+placeholder="Write your message..."
+required></textarea>
+
+</div>
+
+
+<button
+type="submit"
+class="btn btn-primary">
+
+Send Message →
+
+</button>
+
+<p
+class="form-message"
+id="formMessage">
+</p>
+
+</form>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<div class="container footer-content">
+
+<div class="footer-brand">
+
+<a href="#home" class="logo">
+
+<span class="logo-icon">
+&lt;/&gt;
+</span>
+
+Bug<span>Fix</span> Battle
+
+</a>
+
+<p>
+Debug. Learn. Improve. Repeat.
+</p>
+
+</div>
+
+
+<div class="social-links">
+
+<a href="#">GitHub</a>
+
+<a href="#">LinkedIn</a>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 Bug Fix Battle. Built for learning.
+
+</div>
+
+</footer>
+
+
+
+<script>
+
+/* =========================================
+   CHALLENGE DATA
+========================================= */
+
+const challenges = {
+
+"c-array": {
+
+title: "Array Index Bug",
+language: "C",
+points: 100,
+file: "array.c",
+
+problem:
+"The program should print all elements of an array. Find and fix the error in the loop.",
+
+hint:
+"Check the condition used in the for loop.",
+
+code:
+`#include <stdio.h>
+
+int main() {
+
+    int numbers[] = {10, 20, 30, 40, 50};
+
+    for(int i = 0; i <= 5; i++) {
+        printf("%d ", numbers[i]);
+    }
+
+    return 0;
+}`,
+
+solution:
+`#include <stdio.h>
+
+int main() {
+
+    int numbers[] = {10, 20, 30, 40, 50};
+
+    for(int i = 0; i < 5; i++) {
+        printf("%d ", numbers[i]);
+    }
+
+    return 0;
+}`
+
+},
+
+
+"java-loop": {
+
+title: "Loop Logic",
+language: "Java",
+points: 100,
+file: "LoopBug.java",
+
+problem:
+"The program should print numbers from 1 to 5. Fix the loop.",
+
+hint:
+"Look carefully at the loop condition.",
+
+code:
+`public class LoopBug {
+
+    public static void main(String[] args) {
+
+        for(int i = 1; i < 5; i++) {
+            System.out.println(i);
+        }
+
+    }
+}`,
+
+solution:
+`public class LoopBug {
+
+    public static void main(String[] args) {
+
+        for(int i = 1; i <= 5; i++) {
+            System.out.println(i);
+        }
+
+    }
+}`
+
+},
+
+
+"python-function": {
+
+title: "Function Bug",
+language: "Python",
+points: 100,
+file: "function.py",
+
+problem:
+"The function should return the sum of two numbers. Find the incorrect operator.",
+
+hint:
+"The function is supposed to calculate a sum.",
+
+code:
+`def calculate_sum(a, b):
+
+    result = a - b
+
+    return result
+
+
+print(calculate_sum(10, 5))`,
+
+solution:
+`def calculate_sum(a, b):
+
+    result = a + b
+
+    return result
+
+
+print(calculate_sum(10, 5))`
+
+},
+
+
+"c-pointer": {
+
+title: "Pointer Problem",
+language: "C",
+points: 200,
+file: "pointer.c",
+
+problem:
+"The program should change the value of x using a pointer.",
+
+hint:
+"A pointer should store an address.",
+
+code:
+`#include <stdio.h>
+
+int main() {
+
+    int x = 10;
+    int *ptr;
+
+    ptr = x;
+
+    *ptr = 20;
+
+    printf("%d", x);
+
+    return 0;
+}`,
+
+solution:
+`#include <stdio.h>
+
+int main() {
+
+    int x = 10;
+    int *ptr;
+
+    ptr = &x;
+
+    *ptr = 20;
+
+    printf("%d", x);
+
+    return 0;
+}`
+
+},
+
+
+"java-inheritance": {
+
+title: "Inheritance Error",
+language: "Java",
+points: 200,
+file: "inheritance.java",
+
+problem:
+"The Student class should inherit the display method from Person.",
+
+hint:
+"Check the relationship between Student and Person.",
+
+code:
+`class Person {
+
+    void display() {
+        System.out.println("Person");
+    }
+}
+
+class Student Person {
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display();
+    }
+}`,
+
+solution:
+`class Person {
+
+    void display() {
+        System.out.println("Person");
+    }
+}
+
+class Student extends Person {
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display();
+    }
+}`
+
+},
+
+
+"python-list": {
+
+title: "List Processing",
+language: "Python",
+points: 200,
+file: "list.py",
+
+problem:
+"The program should print every item in the list. Find the error.",
+
+hint:
+"Look at the range used in the loop.",
+
+code:
+`numbers = [10, 20, 30, 40]
+
+for i in range(len(numbers) + 1):
+
+    print(numbers[i])`,
+
+solution:
+`numbers = [10, 20, 30, 40]
+
+for i in range(len(numbers)):
+
+    print(numbers[i])`
+
+}
+
+};
+
+
+/* =========================================
+   MOBILE MENU
+========================================= */
+
+const menuBtn =
+document.getElementById("menuBtn");
+
+const navMenu =
+document.getElementById("navMenu");
+
+menuBtn.onclick = function() {
+
+navMenu.classList.toggle("show");
+
+};
+
+
+/* =========================================
+   CHALLENGE VARIABLES
+========================================= */
+
+let currentChallenge = null;
+
+const title =
+document.getElementById("challengeTitle");
+
+const language =
+document.getElementById("battleLanguage");
+
+const points =
+document.getElementById("battlePoints");
+
+const problem =
+document.getElementById("problemText");
+
+const hint =
+document.getElementById("hintText");
+
+const editor =
+document.getElementById("codeEditor");
+
+const file =
+document.getElementById("fileName");
+
+
+/* =========================================
+   LOAD CHALLENGE
+========================================= */
+
+document
+.querySelectorAll(".start-challenge")
+.forEach(button => {
+
+button.onclick = function() {
+
+const id =
+button.getAttribute("data-id");
+
+const challenge =
+challenges[id];
+
+currentChallenge = challenge;
+
+title.textContent =
+challenge.title;
+
+language.textContent =
+challenge.language;
+
+points.textContent =
+challenge.points + " pts";
+
+problem.textContent =
+challenge.problem;
+
+hint.textContent =
+challenge.hint;
+
+editor.value =
+challenge.code;
+
+file.textContent =
+challenge.file;
+
+document
+.getElementById("battle")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+};
+
+});
+
+
+/* =========================================
+   RESET
+========================================= */
+
+document
+.getElementById("resetCode")
+.onclick = function() {
+
+if(!currentChallenge) {
+
+alert("Please select a challenge first.");
+
+return;
+
+}
+
+editor.value =
+currentChallenge.code;
+
+};
+
+
+/* =========================================
+   NORMALIZE CODE
+========================================= */
+
+function normalize(code) {
+
+return code
+.replace(/\r/g,"")
+.split("\n")
+.map(line => line.trim())
+.filter(line => line.length > 0)
+.join("\n")
+.replace(/\s+/g," ")
+.trim();
+
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+document
+.getElementById("submitCode")
+.onclick = function() {
+
+if(!currentChallenge) {
+
+alert("Please select a challenge first.");
+
+return;
+
+}
+
+const userCode =
+normalize(editor.value);
+
+const correctCode =
+normalize(currentChallenge.solution);
+
+const result =
+document.getElementById("resultSection");
+
+const resultTitle =
+document.getElementById("resultTitle");
+
+const resultMessage =
+document.getElementById("resultMessage");
+
+const score =
+document.getElementById("scoreNumber");
+
+const icon =
+document.getElementById("resultIcon");
+
+
+result.classList.add("show");
+
+
+if(userCode === correctCode) {
+
+    score.textContent = "100";
+
+    playerScore += 100;
+    playerChallenges++;
+
+    updateLeaderboard();
+
+    resultTitle.textContent =
+    "Bug Fixed! 🎉";
+
+    resultMessage.textContent =
+    "Excellent! Your solution is correct.";
+
+    icon.textContent = "🏆";
+
+}
+
+else {
+
+score.textContent = "30";
+
+resultTitle.textContent =
+"Keep Debugging!";
+
+resultMessage.textContent =
+"Your solution is not correct yet. Check the bug and try again.";
+
+icon.textContent = "🐞";
+
+}
+
+
+result.scrollIntoView({
+behavior:"smooth"
+});
+
+};
+
+
+/* =========================================
+   CLOSE RESULT
+========================================= */
+
+document
+.getElementById("closeResult")
+.onclick = function() {
+
+document
+.getElementById("resultSection")
+.classList.remove("show");
+
+};
+
+
+/* =========================================
+   NEXT CHALLENGE
+========================================= */
+
+document
+.getElementById("nextChallenge")
+.onclick = function() {
+
+const ids =
+Object.keys(challenges);
+
+const random =
+ids[Math.floor(Math.random()*ids.length)];
+
+const challenge =
+challenges[random];
+
+currentChallenge = challenge;
+
+title.textContent =
+challenge.title;
+
+language.textContent =
+challenge.language;
+
+points.textContent =
+challenge.points + " pts";
+
+problem.textContent =
+challenge.problem;
+
+hint.textContent =
+challenge.hint;
+
+editor.value =
+challenge.code;
+
+file.textContent =
+challenge.file;
+
+document
+.getElementById("resultSection")
+.classList.remove("show");
+
+document
+.getElementById("battle")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+};
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+let selectedLanguage = "all";
+
+const filterButtons =
+document.querySelectorAll(".filter-btn");
+
+const cards =
+document.querySelectorAll(".challenge-card");
+
+filterButtons.forEach(button => {
+
+button.onclick = function() {
+
+filterButtons.forEach(btn =>
+btn.classList.remove("active")
+);
+
+button.classList.add("active");
+
+selectedLanguage =
+button.getAttribute("data-language");
+
+filterCards();
+
+};
+
+});
+
+
+document
+.getElementById("difficultyFilter")
+.onchange = filterCards;
+
+
+function filterCards() {
+
+const difficulty =
+document
+.getElementById("difficultyFilter")
+.value;
+
+cards.forEach(card => {
+
+const cardLanguage =
+card.getAttribute("data-language");
+
+const cardDifficulty =
+card.getAttribute("data-difficulty");
+
+const languageMatch =
+selectedLanguage === "all" ||
+selectedLanguage === cardLanguage;
+
+const difficultyMatch =
+difficulty === "all" ||
+difficulty === cardDifficulty;
+
+if(languageMatch && difficultyMatch) {
+
+card.style.display = "block";
+
+} else {
+
+card.style.display = "none";
+
+}
+
+});
+
+}
+
+
+/* =========================================
+   CONTACT FORM
+========================================= */
+
+document
+.getElementById("contactForm")
+.onsubmit = function(event) {
+
+event.preventDefault();
+
+const name =
+document
+.getElementById("contactName")
+.value;
+
+document
+.getElementById("formMessage")
+.textContent =
+"Thank you, " + name +
+"! Your message has been received.";
+
+this.reset();
+
+};
+
+
+/* =========================================
+   NAV LINK CLOSE
+========================================= */
+
+document
+.querySelectorAll("nav a")
+.forEach(link => {
+
+link.onclick = function() {
+
+navMenu.classList.remove("show");
+
+};
+
+});
+let playerScore = 0;
+let playerChallenges = 0;
+
+function updateLeaderboard() {
+
+    const nameInput =
+        document.getElementById("playerName");
+
+    const playerName =
+        nameInput.value.trim();
+
+    if (!playerName) {
+        return;
+    }
+
+    const leaderboard =
+        document.getElementById("leaderboardTable");
+
+    const oldPlayer =
+        document.getElementById("currentPlayerRow");
+
+    if (oldPlayer) {
+        oldPlayer.remove();
+    }
+
+    const row =
+        document.createElement("div");
+
+    row.className = "player-row";
+    row.id = "currentPlayerRow";
+
+    row.innerHTML = `
+        <span>01</span>
+
+        <span class="player">
+
+            <span class="avatar">
+                ${playerName.charAt(0).toUpperCase()}
+            </span>
+
+            ${playerName}
+
+        </span>
+
+        <span>${playerChallenges}</span>
+
+        <strong>${playerScore}</strong>
+    `;
+
+    leaderboard.appendChild(row);
+}
+
+</script>
+
+</body>
+</html>
